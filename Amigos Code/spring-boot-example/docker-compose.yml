@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:10.5
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=santhosh
+      - POSTGRES_PASSWORD=password
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '5438:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      # copy the sql script to create tables
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+#services:
+#  db:
+#    container_name: postgres
+#    image: postgres
+#    environment:
+#      POSTGRES_USER: santhosh
+#      POSTGRES_PASSWORD: password
+#      PGDATA: /data/postgres
+#    volumes:
+#      - db: /data/postgres
+#    ports:
+#      - "5332:5432"
+#    networks:
+#      - db
+#    restart: unless-stopped
